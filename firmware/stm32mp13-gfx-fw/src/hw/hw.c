@@ -61,6 +61,7 @@ bool hwInit(void)
 
   i2cInit();
   ddrInit();
-  
+  emmcInit();
+
   return true;
 }

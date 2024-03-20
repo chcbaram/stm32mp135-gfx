@@ -221,6 +221,9 @@ void HAL_MMC_MspInit(MMC_HandleTypeDef* mmcHandle)
     GPIO_InitStruct.Alternate = GPIO_AF10_SDIO2;
     HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
+    /* SDMMC2 interrupt Init */
+    IRQ_SetPriority(SDMMC2_IRQn, 4);
+    IRQ_Enable(SDMMC2_IRQn);
   /* USER CODE BEGIN SDMMC2_MspInit 1 */
 
   /* USER CODE END SDMMC2_MspInit 1 */
@@ -293,6 +296,8 @@ void HAL_MMC_MspDeInit(MMC_HandleTypeDef* mmcHandle)
 
     HAL_GPIO_DeInit(GPIOG, GPIO_PIN_6);
 
+    /* SDMMC2 interrupt Deinit */
+    IRQ_Disable(SDMMC2_IRQn);
   /* USER CODE BEGIN SDMMC2_MspDeInit 1 */
 
   /* USER CODE END SDMMC2_MspDeInit 1 */

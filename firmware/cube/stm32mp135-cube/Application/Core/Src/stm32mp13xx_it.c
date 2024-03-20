@@ -56,6 +56,7 @@
 
 /* External variables --------------------------------------------------------*/
 extern SD_HandleTypeDef hsd1;
+extern MMC_HandleTypeDef hmmc2;
 extern DMA_HandleTypeDef hdma_uart4_rx;
 extern PCD_HandleTypeDef hpcd_USB_OTG_HS;
 /* USER CODE BEGIN EV */
@@ -366,6 +367,20 @@ void OTG_IRQHandler(void)
   /* USER CODE BEGIN OTG_IRQn 1 */
 
   /* USER CODE END OTG_IRQn 1 */
+}
+
+/**
+  * @brief This function handles SDMMC2 global interrupt.
+  */
+void SDMMC2_IRQHandler(void)
+{
+  /* USER CODE BEGIN SDMMC2_IRQn 0 */
+
+  /* USER CODE END SDMMC2_IRQn 0 */
+  HAL_MMC_IRQHandler(&hmmc2);
+  /* USER CODE BEGIN SDMMC2_IRQn 1 */
+
+  /* USER CODE END SDMMC2_IRQn 1 */
 }
 
 /**

@@ -14,7 +14,7 @@ extern "C" {
 #include "cli_gui.h"
 #include "i2c.h"
 #include "ddr.h"
-
+#include "emmc.h"
 
 bool hwInit(void);
 

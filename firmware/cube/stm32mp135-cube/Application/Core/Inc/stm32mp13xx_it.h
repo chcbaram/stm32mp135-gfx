@@ -66,6 +66,7 @@ void SGI15_IRQHandler(void);
 void DMA1_Stream0_IRQHandler(void);
 void SDMMC1_IRQHandler(void);
 void OTG_IRQHandler(void);
+void SDMMC2_IRQHandler(void);
 void RCC_WAKEUP_IRQHandler(void);
 /* USER CODE BEGIN EFP */
 

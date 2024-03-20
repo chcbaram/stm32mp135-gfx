@@ -40,12 +40,16 @@
 #define      HW_DDR_ADDR            0xC0000000
 #define      HW_DDR_SIZE            (512*1024*1024)
 
+#define _USE_HW_EMMC
+#define      HW_EMMC_DMA            0
+#define      HW_EMMC_SIZE           (4*1024*1024*1024)
+
 
 //-- USE CLI
 //
 #define _USE_CLI_HW_LED             1
-#define _USE_CLI_HW_I2C             1
-#define _USE_CLI_HW_DDR             1
-
+#define _USE_CLI_HW_I2C             0
+#define _USE_CLI_HW_DDR             0
+#define _USE_CLI_HW_EMMC            1
 
 #endif
