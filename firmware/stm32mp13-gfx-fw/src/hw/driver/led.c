@@ -26,12 +26,10 @@ static const led_tbl_t led_tbl[LED_MAX_CH] =
 };
 
 #if CLI_USE(HW_LED)
-static const char *led_name[LED_MAX_CH+1] = 
+static const char *led_name[LED_MAX_CH] = 
 {
-  "0_LED ",   
-  "1_LED2",
-  "2_BLE ",
-  "Unknown",
+  "0_LED_B",   
+  "1_LED_L",
 };
 #endif
 

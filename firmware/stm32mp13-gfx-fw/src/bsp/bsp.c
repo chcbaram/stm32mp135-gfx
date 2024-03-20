@@ -2,6 +2,7 @@
 #include "hw_def.h"
 
 
+
 static void SystemClock_Config(void);
 
 
@@ -15,6 +16,11 @@ bool bspInit(void)
 
   SystemClock_Config();
 
+  /* ETZPC clock enable */
+  __HAL_RCC_ETZPC_CLK_ENABLE();
+
+  /* Unsecure SYSRAM */
+  LL_ETZPC_SetSecureSysRamSize(ETZPC, 0);
 
   return true;
 }
@@ -162,4 +168,21 @@ void SystemClock_Config(void)
 */
 #endif
 
+}
+
+
+void assert_failed(uint8_t* file, uint32_t line)
+{
+  char *name_buf;
+
+  if (strrchr((char *) file,'/') == NULL) 
+  {
+    name_buf = strrchr((char *)file,'\\')+1;
+  }
+  else 
+  {
+    name_buf = strrchr((char *)file,'/')+1;
+  }
+
+  printf("assert_faile() - %s : %d", name_buf, (int)line);
 }

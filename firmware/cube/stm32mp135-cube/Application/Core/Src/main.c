@@ -70,6 +70,7 @@ void SystemClock_Config(void);
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -94,11 +95,11 @@ int main(void)
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_UART4_Init();
-  MX_I2C4_Init();
   MX_SDMMC1_SD_Init();
-  MX_I2C5_Init();
   MX_LTDC_Init();
   MX_USB_OTG_HS_PCD_Init();
+  MX_I2C3_Init();
+  MX_SDMMC2_MMC_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */

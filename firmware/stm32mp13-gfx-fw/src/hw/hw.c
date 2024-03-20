@@ -23,7 +23,24 @@ bool hwInit(void)
 {
   bspInit();
 
+  #ifdef _USE_HW_CLI
+  cliInit();
+  #endif
+  logInit();
   ledInit();
+  uartInit();
+  for (int i=0; i<UART_MAX_CH; i++)
+  {
+    uartOpen(i, 115200);
+  }
+
+  logOpen(HW_LOG_CH, 115200);
+  logPrintf("\r\n[ Firmware Begin... ]\r\n");
+  logPrintf("Name      \t: %s\r\n", _DEF_BOARD_NAME);
+  logPrintf("Ver       \t: %s\r\n", _DEF_FIRMWATRE_VERSION);  
+  logPrintf("CPU  Clock\t: %d Mhz\r\n", (int)HAL_RCC_GetMPUSSFreq()/1000000);
+  logPrintf("\n");
+
 
   return true;
 }
