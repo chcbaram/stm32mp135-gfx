@@ -81,33 +81,37 @@ target_include_directories(${EXECUTABLE} PRIVATE
 
 target_compile_definitions(${EXECUTABLE} PRIVATE
   -DUSE_HAL_DRIVER
-  -DSTM32MP135Fxx
+  -DSTM32MP135Dxx
   -DCORE_CA7
   -DNO_CACHE_USE
   -DNO_MMU_USE
+  -DDDR_TYPE_DDR3_4Gb  
   -DUSE_FULL_ASSERT
   )
 
 target_compile_options(${EXECUTABLE} PRIVATE
   -mcpu=cortex-a7
   -mthumb
-  -mfpu=vfpv4-d16
+  # -mfpu=vfpv4-d16
+  -mfpu=neon-vfpv4  
   -mfloat-abi=hard
 
   -fdata-sections
   -ffunction-sections
-  
+  -Wstack-usage=1024
+
   -Wall
   -g3
-  -O0
+  -Og
   )
 
 target_link_options(${EXECUTABLE} PRIVATE
   -T../src/bsp/ldscript/STM32MP135FAFX_RAM.ld
-  # -T../src/bsp/ldscript/STM32WB55RG_EXTEND.ld
+  # -T../src/bsp/ldscript/STM32MP135FAFX_DDR.ld
   -mcpu=cortex-a7
   -mthumb
-  -mfpu=vfpv4-d16
+  # -mfpu=vfpv4-d16
+  -mfpu=neon-vfpv4
   -mfloat-abi=hard
   -specs=nano.specs
   -lc
@@ -122,6 +126,11 @@ target_link_options(${EXECUTABLE} PRIVATE
   -Wl,--gc-sections
   -Xlinker -print-memory-usage -Xlinker
   )
+
+add_custom_command(TARGET ${EXECUTABLE} 
+  POST_BUILD
+  COMMAND ${CMAKE_SIZE_UTIL}  ${EXECUTABLE} --format=berkeley 
+  )  
 
 add_custom_command(TARGET ${EXECUTABLE} 
   POST_BUILD

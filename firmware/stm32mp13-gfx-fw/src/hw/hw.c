@@ -60,6 +60,7 @@ bool hwInit(void)
   logPrintf("\n");
 
   i2cInit();
-
+  ddrInit();
+  
   return true;
 }
