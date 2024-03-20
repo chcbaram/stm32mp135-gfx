@@ -30,11 +30,16 @@
 #define      HW_CLI_LINE_HIS_MAX    8
 #define      HW_CLI_LINE_BUF_MAX    64
 
+#define _USE_HW_I2C
+#define      HW_I2C_MAX_CH          1
+#define      HW_I2C_CH_EEPROM       _DEF_I2C1
+#define      HW_I2C_CH_TOUCH        _DEF_I2C1
+
 
 //-- USE CLI
 //
 #define _USE_CLI_HW_LED             1
-
+#define _USE_CLI_HW_I2C             1
 
 
 #endif

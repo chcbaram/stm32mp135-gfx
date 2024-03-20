@@ -12,6 +12,8 @@ extern "C" {
 #include "log.h"
 #include "cli.h"
 #include "cli_gui.h"
+#include "i2c.h"
+
 
 bool hwInit(void);
 
