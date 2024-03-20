@@ -70,16 +70,17 @@ void SystemClock_Config(void)
   RCC_OscInitStructure.CSICalibrationValue = 0x10; //Default reset value
   RCC_OscInitStructure.HSIDivValue = RCC_HSI_DIV1; //Default value
 
-  /* PLL configuration */
-  RCC_OscInitStructure.PLL.PLLState = RCC_PLL_ON;
+  /* Configure new Value for PLL1 = 900MHz */
+  /* Freq = ((HSE) / PLLM) * (PLLN / PLLP) */
+  RCC_OscInitStructure.PLL.PLLState  = RCC_PLL_ON;
   RCC_OscInitStructure.PLL.PLLSource = RCC_PLL12SOURCE_HSE;
-  RCC_OscInitStructure.PLL.PLLM = 3;
-  RCC_OscInitStructure.PLL.PLLN = 81;
-  RCC_OscInitStructure.PLL.PLLP = 1;
-  RCC_OscInitStructure.PLL.PLLQ = 2;
-  RCC_OscInitStructure.PLL.PLLR = 2;
-  RCC_OscInitStructure.PLL.PLLFRACV = 0x800;
-  RCC_OscInitStructure.PLL.PLLMODE = RCC_PLL_FRACTIONAL;
+  RCC_OscInitStructure.PLL.PLLM      = 2;
+  RCC_OscInitStructure.PLL.PLLN      = 75;
+  RCC_OscInitStructure.PLL.PLLP      = 1;
+  RCC_OscInitStructure.PLL.PLLQ      = 2;
+  RCC_OscInitStructure.PLL.PLLR      = 2;
+  RCC_OscInitStructure.PLL.PLLFRACV  = 0x0;
+  RCC_OscInitStructure.PLL.PLLMODE   = RCC_PLL_FRACTIONAL;
 
   RCC_OscInitStructure.PLL2.PLLState = RCC_PLL_ON;
   RCC_OscInitStructure.PLL2.PLLSource = RCC_PLL12SOURCE_HSE;

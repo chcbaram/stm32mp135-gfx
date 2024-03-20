@@ -58,12 +58,14 @@
 #define _DEF_LOW              0
 #define _DEF_HIGH             1
 
-#define _DEF_INPUT            0
-#define _DEF_INPUT_PULLUP     1
-#define _DEF_INPUT_PULLDOWN   2
-#define _DEF_OUTPUT           3
-#define _DEF_OUTPUT_PULLUP    4
-#define _DEF_OUTPUT_PULLDOWN  5
+#define _DEF_INPUT            (1<<0)
+#define _DEF_OUTPUT           (1<<1)
+#define _DEF_PULLUP           (1<<2)
+#define _DEF_PULLDOWN         (1<<3)
+#define _DEF_INPUT_PULLUP     (_DEF_INPUT  | _DEF_PULLUP)
+#define _DEF_INPUT_PULLDOWN   (_DEF_INPUT  | _DEF_PULLDOWN)
+#define _DEF_OUTPUT_PULLUP    (_DEF_OUTPUT | _DEF_PULLUP)
+#define _DEF_OUTPUT_PULLDOWN  (_DEF_OUTPUT | _DEF_PULLDOWN)
 
 #define _DEF_CAN1             0
 #define _DEF_CAN2             1

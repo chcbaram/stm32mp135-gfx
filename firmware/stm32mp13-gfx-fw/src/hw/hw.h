@@ -13,6 +13,7 @@ extern "C" {
 #include "cli.h"
 #include "cli_gui.h"
 #include "i2c.h"
+#include "clocks.h"
 
 
 bool hwInit(void);
