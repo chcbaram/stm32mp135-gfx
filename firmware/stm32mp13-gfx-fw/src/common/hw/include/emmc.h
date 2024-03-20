@@ -10,6 +10,12 @@ extern "C" {
 #ifdef _USE_HW_EMMC
 
 
+typedef enum
+{
+  EMMC_BOOT_1,
+  EMMC_BOOT_2,
+  EMMC_BOOT_USER
+} EmmcBootPartition_t;
 
 typedef struct
 {
@@ -39,6 +45,7 @@ bool emmcReadBlocks(uint32_t block_addr, uint8_t *p_data, uint32_t num_of_blocks
 bool emmcWriteBlocks(uint32_t block_addr, uint8_t *p_data, uint32_t num_of_blocks, uint32_t timeout_ms);
 bool emmcEraseBlocks(uint32_t start_addr, uint32_t end_addr);
 
+bool emmcSetBootPartition(EmmcBootPartition_t parition, bool enable);
 
 
 #endif

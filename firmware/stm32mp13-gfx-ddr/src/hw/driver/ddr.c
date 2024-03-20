@@ -52,7 +52,7 @@ bool ddrInitSetup(void)
   bool ret = true;
 
 
-  pmicEnableDDR();
+  // pmicEnableDDR();
 
   hddr.wakeup_from_standby = false;
   hddr.self_refresh        = false;

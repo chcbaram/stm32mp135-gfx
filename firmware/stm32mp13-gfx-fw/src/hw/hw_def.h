@@ -10,6 +10,8 @@
 #define _DEF_BOARD_NAME           "STM32MP13-GFX-FW"
 
 
+#define _USE_HW_LOADER
+#define _USE_HW_YMODEM
 
 #define _USE_HW_LED
 #define      HW_LED_MAX_CH          2
@@ -51,5 +53,6 @@
 #define _USE_CLI_HW_I2C             0
 #define _USE_CLI_HW_DDR             0
 #define _USE_CLI_HW_EMMC            1
+#define _USE_CLI_HW_LOADER          1
 
 #endif

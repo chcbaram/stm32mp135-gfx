@@ -7,7 +7,7 @@
     {
       "cwd": "${workspaceRoot}",
       "executable": "./build/stm32mp13-gfx-fw.elf",
-      "name": "Debug with OpenOCD",
+      "name": "Debug with SRAM",
       "request": "launch",
       "type": "cortex-debug",
       "servertype": "openocd",
@@ -24,10 +24,44 @@
       "runToEntryPoint": "main",
       "showDevDebugOutput": "vscode",
       "overrideLaunchCommands": [
-        "monitor reset",
+        "monitor reset",      
         "monitor halt",
-        "load"
-      ]  
+        "load",
+      ],
+      "overrideRestartCommands": [
+        "monitor reset",      
+        "monitor halt",
+        "load",
+      ],        
     },
+    {
+      "cwd": "${workspaceRoot}",
+      "executable": "./build/stm32mp13-gfx-fw.elf",
+      "name": "Debug with DDR",
+      "request": "launch",
+      "type": "cortex-debug",
+      "servertype": "openocd",
+      "windows": {
+        "serverpath": "${env:OPENOCD_DIR}\\bin\\openocd.exe",
+        "searchDir": [
+          "${env:OPENOCD_DIR}\\share\\openocd\\scripts"
+        ],
+      },   
+      "configFiles": [
+        "tools/stm32mp135-debug.cfg",
+      ],
+      "searchDir": [],
+      "runToEntryPoint": "main",
+      "showDevDebugOutput": "vscode",
+      "overrideRestartCommands": [
+        "load"
+      ],
+      "postStartSessionCommands": [
+        "monitor reset"
+      ],
+      "overrideLaunchCommands": [       
+        "load",
+      ],
+    },    
   ]
 }

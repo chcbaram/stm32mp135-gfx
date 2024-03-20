@@ -32,8 +32,8 @@
     {
       "label": "image-fsbl",
       "type": "shell",
-      "windows":{"command": "python tools/image-header/Stm32ImageAddHeader.py build/stm32mp13-fw.bin build/fsbl-fw.stm32 -bt 10",},
-      "osx":{"command": "python3 tools/image-header/Stm32ImageAddHeader.py build/stm32mp13-fw.bin build/fsbl-fw.stm32 -bt 10",},      
+      "windows":{"command": "python tools/image-header/Stm32ImageAddHeader.py build/stm32mp13-gfx-fw.bin build/fsbl-fw.stm32 -bt 10",},
+      "osx":{"command": "python3 tools/image-header/Stm32ImageAddHeader.py build/stm32mp13-gfx-fw.bin build/fsbl-fw.stm32 -bt 10",},      
       "problemMatcher": [],
     },
     {

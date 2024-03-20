@@ -15,6 +15,9 @@ extern "C" {
 #include "i2c.h"
 #include "ddr.h"
 #include "emmc.h"
+#include "loader.h"
+#include "ymodem.h"
+
 
 bool hwInit(void);
 

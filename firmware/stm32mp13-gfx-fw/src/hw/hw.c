@@ -63,5 +63,7 @@ bool hwInit(void)
   ddrInit();
   emmcInit();
 
+  loaderInit();
+
   return true;
 }

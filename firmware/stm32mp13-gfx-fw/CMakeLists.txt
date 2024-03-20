@@ -98,7 +98,7 @@ target_compile_options(${EXECUTABLE} PRIVATE
 
   -fdata-sections
   -ffunction-sections
-  -Wstack-usage=1024
+  -Wstack-usage=2048
 
   -Wall
   -g3

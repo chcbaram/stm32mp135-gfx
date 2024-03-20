@@ -6,6 +6,19 @@
 #include "cli.h"
 
 
+#define BOOT_PARTITION_ENABLE_pos  (0x03)
+#define BOOT_PARTITION_ENABLE_mask (0x07 << BOOT_PARTITION_ENABLE_pos)
+#define BOOT_FROM_USER_PARTITION   (0x07 << BOOT_PARTITION_ENABLE_pos)
+#define BOOT_FROM_BOOT1_PARTITION  (0x01 << BOOT_PARTITION_ENABLE_pos)
+#define BOOT_FROM_BOOT2_PARTITION  (0x02 << BOOT_PARTITION_ENABLE_pos)
+#define BOOT_ACK_pos               (0x06)
+#define BOOT_ACK_mask              (0x01 << BOOT_ACK_pos)
+#define BOOT_ACK_ENABLE            (0x01 << BOOT_ACK_pos)
+#define BOOT_PARTITION_ACCESS_pos  (0x00)
+#define BOOT_PARTITION_ACCESS_mask (0x07 << BOOT_PARTITION_ACCESS_pos)
+#define BOOT1_PARTITION_RW_ACCESS  (0x01 << BOOT_PARTITION_ACCESS_pos)
+#define BOOT2_PARTITION_RW_ACCESS  (0x02 << BOOT_PARTITION_ACCESS_pos)
+
 
 
 static bool is_init = false;
@@ -20,7 +33,7 @@ static MMC_HandleTypeDef hmmc;
 #if CLI_USE(HW_EMMC)
 static void cliCmd(cli_args_t *args);
 #endif
-
+static HAL_StatusTypeDef HAL_MMC_ConfigBootPartition(MMC_HandleTypeDef *hmmc, uint32_t BootPartition);
 
 
 
@@ -32,6 +45,8 @@ bool emmcInit(void)
   // 50Mhz / (1) = 50Mhz
   //
   hmmc.Instance            = SDMMC2;
+  HAL_MMC_DeInit(&hmmc);
+
   hmmc.Init.ClockEdge      = SDMMC_CLOCK_EDGE_RISING;
   hmmc.Init.ClockPowerSave = SDMMC_CLOCK_POWER_SAVE_DISABLE;
   hmmc.Init.BusWide        = SDMMC_BUS_WIDE_8B;
@@ -40,7 +55,10 @@ bool emmcInit(void)
 
   if (HAL_MMC_Init(&hmmc) == HAL_OK)
   {
-    ret = true;
+    if (HAL_MMC_ConfigSpeedBusOperation(&hmmc, SDMMC_SPEED_MODE_HIGH) == HAL_OK)
+    {
+      ret = true;
+    }
   }
 
   is_init = ret;
@@ -289,6 +307,116 @@ bool emmcEraseBlocks(uint32_t start_addr, uint32_t end_addr)
   return ret;
 }
 
+bool emmcSetBootPartition(EmmcBootPartition_t parition, bool enable)
+{
+  bool ret = false;
+  uint32_t part_param;
+
+  if (is_init == false) return false;
+
+
+  switch(parition)
+  {
+    case EMMC_BOOT_1:
+      part_param = BOOT_ACK_ENABLE | BOOT_FROM_BOOT1_PARTITION;
+      if (enable)
+      {
+        part_param |= BOOT1_PARTITION_RW_ACCESS;
+      }
+      break;
+
+    case EMMC_BOOT_2:
+      part_param = BOOT_ACK_ENABLE | BOOT_FROM_BOOT2_PARTITION;
+      if (enable)
+      {
+        part_param |= BOOT2_PARTITION_RW_ACCESS;
+      }    
+      break;
+
+    default:
+      part_param = BOOT_ACK_ENABLE | BOOT_FROM_USER_PARTITION;   
+      break;
+  }
+
+  if (HAL_MMC_ConfigBootPartition(&hmmc, part_param) == HAL_OK)
+  {
+    ret = true;
+  }
+
+  return ret;
+}
+
+HAL_StatusTypeDef HAL_MMC_ConfigBootPartition(MMC_HandleTypeDef *hmmc, uint32_t BootPartition)
+{
+  uint32_t errorstate;
+  uint32_t response = 0U;
+  uint32_t count;
+
+  /* Check the state of the driver */
+  if (hmmc->State == HAL_MMC_STATE_READY)
+  {
+      /* Change State */
+      hmmc->State = HAL_MMC_STATE_BUSY;
+
+        /* Index : 179 - Value : BootPartition */
+        errorstate = SDMMC_CmdSwitch(hmmc->Instance, (0x03B30000U | (BootPartition << 8U)));
+        if (errorstate == HAL_MMC_ERROR_NONE)
+        {
+          /* While card is not ready for data and trial number for sending CMD13 is not exceeded */
+          count = SDMMC_MAX_TRIAL;
+          do
+          {
+            errorstate = SDMMC_CmdSendStatus(hmmc->Instance, (uint32_t)(((uint32_t)hmmc->MmcCard.RelCardAdd) << 16U));
+            if (errorstate != HAL_MMC_ERROR_NONE)
+            {
+              break;
+            }
+
+            /* Get command response */
+            response = SDMMC_GetResponse(hmmc->Instance, SDMMC_RESP1);
+            count--;
+          } while (((response & 0x100U) == 0U) && (count != 0U));
+
+          /* Check the status after the switch command execution */
+          if ((count != 0U) && (errorstate == HAL_MMC_ERROR_NONE))
+          {
+            /* Check the bit SWITCH_ERROR of the device status */
+            if ((response & 0x80U) != 0U)
+            {
+              errorstate = SDMMC_ERROR_GENERAL_UNKNOWN_ERR;
+            }
+          }
+          else if (count == 0U)
+          {
+            errorstate = SDMMC_ERROR_TIMEOUT;
+          }
+          else
+          {
+            /* Nothing to do */
+          }
+        }
+
+      /* Change State */
+      hmmc->State = HAL_MMC_STATE_READY;
+
+    /* Manage errors */
+    if (errorstate != HAL_MMC_ERROR_NONE)
+    {
+      /* Clear all the static flags */
+      __HAL_MMC_CLEAR_FLAG(hmmc, SDMMC_STATIC_FLAGS);
+      hmmc->ErrorCode |= errorstate;
+      return HAL_ERROR;
+    }
+    else
+    {
+      return HAL_OK;
+    }
+  }
+  else
+  {
+    return HAL_BUSY;
+  }
+}
 
 void SDMMC2_IRQHandler(void)
 {
@@ -324,6 +452,10 @@ void HAL_MMC_MspInit(MMC_HandleTypeDef* mmcHandle)
 
     /* SDMMC2 clock enable */
     __HAL_RCC_SDMMC2_CLK_ENABLE();
+    /* Force the SDMMC Periheral Clock Reset */
+    __HAL_RCC_SDMMC2_FORCE_RESET();
+    /* Release the SDMMC Periheral Clock Reset */
+    __HAL_RCC_SDMMC2_RELEASE_RESET();
 
     __HAL_RCC_GPIOB_CLK_ENABLE();
     __HAL_RCC_GPIOF_CLK_ENABLE();
@@ -509,6 +641,30 @@ void cliCmd(cli_args_t *args)
     ret = true;
   }
 
+  if (args->argc == 2 && args->isStr(0, "boot") == true)
+  {
+    bool ret_set = false;
+
+    if (args->isStr(1, "1"))
+    {
+      ret_set = emmcSetBootPartition(EMMC_BOOT_1, true);
+    }
+    else if (args->isStr(1, "2"))
+    {
+      ret_set = emmcSetBootPartition(EMMC_BOOT_2, true);
+    }
+    else if (args->isStr(1, "user"))
+    {
+      ret_set = emmcSetBootPartition(EMMC_BOOT_USER, true);
+    }
+    else
+    {
+      cliPrintf("no partition\n");
+    }
+    cliPrintf("ret_set : %s\n", ret_set ? "True":"False");
+    ret = true;
+  }
+
   if (ret != true)
   {
     cliPrintf("emmc info\n");
@@ -517,6 +673,7 @@ void cliCmd(cli_args_t *args)
     {
       cliPrintf("emmc read block_number\n");
       cliPrintf("emmc speed-test\n");
+      cliPrintf("emmc boot 1:2:user\n");
     }
   }
 }
