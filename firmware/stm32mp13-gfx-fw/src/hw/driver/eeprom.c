@@ -25,6 +25,7 @@ static uint8_t i2c_addr = 0x50;
 bool eepromInit()
 {
   bool ret;
+  GPIO_InitTypeDef   GPIO_InitStructure;
 
 
   ret = i2cBegin(i2c_ch, 400);
@@ -33,6 +34,14 @@ bool eepromInit()
   {
     ret = eepromValid(0x00);
   }
+
+  // WP to Low
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+  GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStructure.Pull = GPIO_NOPULL;
+  GPIO_InitStructure.Pin = GPIO_PIN_13;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStructure);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_13, GPIO_PIN_RESET);
 
   logPrintf("[%s] eepromInit()\n", ret ? "OK":"NG");
   if (ret == true)
