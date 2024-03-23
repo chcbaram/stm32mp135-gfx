@@ -60,6 +60,7 @@ bool hwInit(void)
   logPrintf("\n");
 
   i2cInit();
+  eepromInit();
   ddrInit();
   emmcInit();
 

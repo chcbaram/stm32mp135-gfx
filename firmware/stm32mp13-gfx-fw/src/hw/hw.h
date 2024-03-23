@@ -17,6 +17,7 @@ extern "C" {
 #include "emmc.h"
 #include "loader.h"
 #include "ymodem.h"
+#include "eeprom.h"
 
 
 bool hwInit(void);

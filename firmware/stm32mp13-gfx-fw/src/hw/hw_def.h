@@ -46,6 +46,10 @@
 #define      HW_EMMC_DMA            0
 #define      HW_EMMC_SIZE           (4*1024*1024*1024)
 
+#define _USE_HW_EEPROM
+#define      HW_EEPROM_MAX_SIZE     (4*1024)
+
+
 
 //-- USE CLI
 //
