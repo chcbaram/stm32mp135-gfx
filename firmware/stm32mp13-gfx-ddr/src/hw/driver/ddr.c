@@ -4,7 +4,6 @@
 
 #ifdef _USE_HW_DDR
 #include "cli.h"
-#include "pmic.h"
 
 
 #if CLI_USE(HW_DDR)

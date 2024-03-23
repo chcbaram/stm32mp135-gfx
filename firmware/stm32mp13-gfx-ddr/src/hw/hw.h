@@ -16,6 +16,9 @@ extern "C" {
 #include "pmic.h"
 #include "ddr.h"
 #include "clocks.h"
+#include "emmc.h"
+#include "loader.h"
+#include "ymodem.h"
 
 
 bool hwInit(void);

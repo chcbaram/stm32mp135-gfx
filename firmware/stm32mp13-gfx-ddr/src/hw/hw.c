@@ -22,8 +22,6 @@ volatile const firm_ver_t firm_ver __attribute__((section(".version"))) =
 bool hwInit(void)
 {  
   bspInit();
-
-  clocksInit();
   
   #ifdef _USE_HW_CLI
   cliInit();
@@ -62,8 +60,10 @@ bool hwInit(void)
   logPrintf("\n");
 
   i2cInit();
-  pmicInit();
   ddrInit();
-  
+  emmcInit();
+
+  loaderInit();
+    
   return true;
 }

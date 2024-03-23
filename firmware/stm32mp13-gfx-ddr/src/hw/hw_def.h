@@ -6,11 +6,13 @@
 #include "bsp.h"
 
 
-#define _DEF_FIRMWATRE_VERSION    "V240319R1"
+#define _DEF_FIRMWATRE_VERSION    "V240323R1"
 #define _DEF_BOARD_NAME           "STM32MP13-GFX-DDR"
 
 
 #define _USE_HW_CLOCKS
+#define _USE_HW_LOADER
+#define _USE_HW_YMODEM
 
 
 #define _USE_HW_LED
@@ -36,20 +38,22 @@
 #define      HW_I2C_MAX_CH          1
 #define      HW_I2C_CH_EEPROM       _DEF_I2C1
 
-#define _USE_HW_PMIC
-#define      HW_PMIC_SETUP          1
-
 #define _USE_HW_DDR
 #define      HW_DDR_SETUP           1
 #define      HW_DDR_ADDR            0xC0000000
 #define      HW_DDR_SIZE            (512*1024*1024)
+
+#define _USE_HW_EMMC
+#define      HW_EMMC_DMA            0
+#define      HW_EMMC_SIZE           (4*1024*1024*1024)
 
 
 //-- USE CLI
 //
 #define _USE_CLI_HW_LED             1
 #define _USE_CLI_HW_I2C             1
-#define _USE_CLI_HW_PMIC            1
 #define _USE_CLI_HW_DDR             1
+#define _USE_CLI_HW_EMMC            1
+#define _USE_CLI_HW_LOADER          1
 
 #endif

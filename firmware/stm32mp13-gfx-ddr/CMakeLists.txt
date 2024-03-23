@@ -85,7 +85,6 @@ target_compile_definitions(${EXECUTABLE} PRIVATE
   -DCORE_CA7
   -DNO_CACHE_USE
   -DNO_MMU_USE
-  -DGPIO_AF7_LCD=0x07
   -DDDR_TYPE_DDR3_4Gb
   )
 
