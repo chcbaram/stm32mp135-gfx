@@ -14,9 +14,8 @@
 #define _USE_HW_YMODEM
 
 #define _USE_HW_LED
-#define      HW_LED_MAX_CH          2
-#define      HW_LED_CH_LED_B        _DEF_LED1
-#define      HW_LED_CH_LED_L        _DEF_LED2
+#define      HW_LED_MAX_CH          1
+#define      HW_LED_CH_LED_L        _DEF_LED1
 
 #define _USE_HW_UART                
 #define      HW_UART_MAX_CH         1

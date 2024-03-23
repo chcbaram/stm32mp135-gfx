@@ -21,15 +21,14 @@ static void cliLed(cli_args_t *args);
 
 static const led_tbl_t led_tbl[LED_MAX_CH] = 
 {
-  {GPIOA, GPIO_PIN_13, GPIO_PIN_RESET, GPIO_PIN_SET},   // 0. LED1
-  {GPIOI, GPIO_PIN_3 , GPIO_PIN_RESET, GPIO_PIN_SET},   // 1. LED2
+  {GPIOI, GPIO_PIN_3 , GPIO_PIN_RESET, GPIO_PIN_SET},   // 0. LED1
 };
 
 #if CLI_USE(HW_LED)
 static const char *led_name[LED_MAX_CH] = 
 {
-  "0_LED_B",   
-  "1_LED_L",
+  "0_LED_L",   
+  // "1_LED_L",
 };
 #endif
 
