@@ -8,14 +8,18 @@
 #include "cli.h"
 #include "cli_gui.h"
 
+#ifdef _USE_HW_RTOS
 #define lock()      xSemaphoreTake(mutex_lock, portMAX_DELAY);
 #define unLock()    xSemaphoreGive(mutex_lock);
+#else
+#define lock()      
+#define unLock()    
+#endif
 
 
 #define FT5206_TOUCH_WIDTH    HW_LCD_WIDTH
 #define FT5206_TOUCH_HEIGTH   HW_LCD_HEIGHT
 
-#define FT6246_PIN_RESET      _PIN_GPIO_LCD_TS_RST
 
 
 
@@ -29,8 +33,9 @@ static uint8_t i2c_ch   = _DEF_I2C1;
 static uint8_t i2c_addr = 0x38; 
 static bool is_init = false;
 static bool is_detected = false;
+#ifdef _USE_HW_RTOS
 static SemaphoreHandle_t mutex_lock = NULL;
-
+#endif
 
 
 
@@ -39,15 +44,16 @@ bool ft5206Init(void)
 {
   bool ret = false;
 
-
+#ifdef _USE_HW_RTOS
   if (mutex_lock == NULL)
   {
     mutex_lock = xSemaphoreCreateMutex();
   }
+#endif
 
-  gpioPinWrite(_PIN_GPIO_LCD_TS_RST, _DEF_LOW);
+  gpioPinWrite(LCD_TP_RESET, _DEF_LOW);
   delay(50);
-  gpioPinWrite(_PIN_GPIO_LCD_TS_RST, _DEF_HIGH);
+  gpioPinWrite(LCD_TP_RESET, _DEF_HIGH);
   delay(50);
 
 
@@ -85,7 +91,8 @@ bool ft5206InitRegs(void)
   uint8_t data;
 
   data = 0;  
-  writeRegs(FT5206_REG_DEV_MODE, &data, 1);
+  writeRegs(FT5206_REG_DEV_MODE, &data, 1); 
+
   return true;
 }
 
@@ -109,7 +116,7 @@ bool readRegs(uint8_t reg_addr, uint8_t *p_data, uint32_t length)
 bool writeRegs(uint8_t reg_addr, uint8_t *p_data, uint32_t length)
 {
   bool ret;
-  uint8_t wr_buf[length + 1];
+  uint8_t wr_buf[8];
 
 
   wr_buf[0] = reg_addr;

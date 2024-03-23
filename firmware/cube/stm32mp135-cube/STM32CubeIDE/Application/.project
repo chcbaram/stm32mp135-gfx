@@ -154,6 +154,16 @@
 			<locationURI>PARENT-2-PROJECT_LOC/Drivers/STM32MP13xx_HAL_Driver/Src/stm32mp13xx_hal_smbus_ex.c</locationURI>
 		</link>
 		<link>
+			<name>Drivers/STM32MP13xx_HAL_Driver/stm32mp13xx_hal_spi.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Drivers/STM32MP13xx_HAL_Driver/Src/stm32mp13xx_hal_spi.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/STM32MP13xx_HAL_Driver/stm32mp13xx_hal_spi_ex.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Drivers/STM32MP13xx_HAL_Driver/Src/stm32mp13xx_hal_spi_ex.c</locationURI>
+		</link>
+		<link>
 			<name>Drivers/STM32MP13xx_HAL_Driver/stm32mp13xx_hal_tim.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/Drivers/STM32MP13xx_HAL_Driver/Src/stm32mp13xx_hal_tim.c</locationURI>
@@ -222,6 +232,11 @@
 			<name>Application/User/Core/sdmmc.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/Application/Core/Src/sdmmc.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/Core/spi.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Application/Core/Src/spi.c</locationURI>
 		</link>
 		<link>
 			<name>Application/User/Core/stm32mp13xx_hal_msp.c</name>

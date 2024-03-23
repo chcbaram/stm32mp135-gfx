@@ -23,6 +23,9 @@ extern "C" {
 #include "fatfs.h"
 #include "files.h"
 #include "touch.h"
+#include "spi.h"
+#include "ltdc.h"
+#include "lcd.h"
 
 
 bool hwInit(void);

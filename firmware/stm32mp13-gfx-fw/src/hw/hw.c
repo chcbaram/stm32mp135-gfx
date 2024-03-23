@@ -28,6 +28,7 @@ bool hwInit(void)
   #endif
   logInit();
   ledInit();
+  spiInit();
   uartInit();
   for (int i=0; i<UART_MAX_CH; i++)
   {
@@ -67,7 +68,8 @@ bool hwInit(void)
   sdInit();
   fatfsInit();
   touchInit();
-
+  lcdInit();
+  
   loaderInit();
 
   return true;

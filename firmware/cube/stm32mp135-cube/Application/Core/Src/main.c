@@ -23,6 +23,7 @@
 #include "i2c.h"
 #include "ltdc.h"
 #include "sdmmc.h"
+#include "spi.h"
 #include "usart.h"
 #include "usb_otg.h"
 #include "gpio.h"
@@ -100,6 +101,7 @@ int main(void)
   MX_USB_OTG_HS_PCD_Init();
   MX_I2C3_Init();
   MX_SDMMC2_MMC_Init();
+  MX_SPI5_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */

@@ -10,13 +10,31 @@
 #define _DEF_BOARD_NAME           "STM32MP13-GFX-FW"
 
 
+#define LCD_MODEL_4_0_480x480       1
+#define LCD_MODEL_4_3_800x480       0
+#define LCD_MODEL_4_3_480x272       0
+#define LCD_MODEL_7_0_800x480       0
+
+
 #define _USE_HW_LOADER
 #define _USE_HW_YMODEM
 #define _USE_HW_GPIO
 #define _USE_HW_SD
 #define _USE_HW_FATFS
 #define _USE_HW_FILES
+#define _USE_HW_ST7701
+#define _USE_HW_CACHE
+
+
+#if LCD_MODEL_4_0_480x480
 #define _USE_HW_GT911
+#endif
+#if LCD_MODEL_4_3_800x480 || LCD_MODEL_4_3_480x272
+#define _USE_HW_FT5206
+#endif
+#if LCD_MODEL_7_0_800x480
+#define _USE_HW_FT5316
+#endif
 
 #define _USE_HW_LED
 #define      HW_LED_MAX_CH          2
@@ -61,11 +79,29 @@
 #define _USE_HW_TOUCH
 #define      HW_TOUCH_MAX_CH        5
 
+#define _USE_HW_SPI
+#define      HW_SPI_MAX_CH          1
+
+#define _USE_HW_LTDC
+#define      HW_LTDC_BUF_ADDR      HW_DDR_ADDR
+
 #define _USE_HW_LCD
 #define      HW_LCD_LOGO            1
 #define      HW_LCD_LVGL            1
+#if LCD_MODEL_4_0_480x480
 #define      HW_LCD_WIDTH           480
 #define      HW_LCD_HEIGHT          480
+#elif LCD_MODEL_4_3_800x480
+#define      HW_LCD_WIDTH           800
+#define      HW_LCD_HEIGHT          480
+#elif LCD_MODEL_4_3_480x272
+#define      HW_LCD_WIDTH           480
+#define      HW_LCD_HEIGHT          272
+#elif LCD_MODEL_7_0_800x480
+#define      HW_LCD_WIDTH           800
+#define      HW_LCD_HEIGHT          480
+#endif
+
 
 
 //-- USE CLI
