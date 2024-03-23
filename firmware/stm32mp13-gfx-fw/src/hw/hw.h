@@ -22,6 +22,7 @@ extern "C" {
 #include "sd.h"
 #include "fatfs.h"
 #include "files.h"
+#include "touch.h"
 
 
 bool hwInit(void);

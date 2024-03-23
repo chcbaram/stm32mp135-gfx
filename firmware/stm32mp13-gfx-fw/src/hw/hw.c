@@ -66,8 +66,8 @@ bool hwInit(void)
   gpioInit();
   sdInit();
   fatfsInit();
+  touchInit();
 
-  
   loaderInit();
 
   return true;
