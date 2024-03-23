@@ -39,9 +39,9 @@ bool eepromInit()
   __HAL_RCC_GPIOA_CLK_ENABLE();
   GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStructure.Pull = GPIO_NOPULL;
-  GPIO_InitStructure.Pin = GPIO_PIN_13;
+  GPIO_InitStructure.Pin = GPIO_PIN_14;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStructure);
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_13, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_14, GPIO_PIN_SET);
 
   logPrintf("[%s] eepromInit()\n", ret ? "OK":"NG");
   if (ret == true)
@@ -101,7 +101,7 @@ bool eepromWriteByte(uint32_t addr, uint8_t data_in)
     return false;
   }
 
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_13, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_14, GPIO_PIN_RESET);
 
   ret = i2cWriteA16Bytes(i2c_ch, i2c_addr, addr, &data_in, 1, 10);
 
@@ -117,7 +117,7 @@ bool eepromWriteByte(uint32_t addr, uint8_t data_in)
     }
     delay(1);
   }
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_13, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_14, GPIO_PIN_SET);
 
   return ret;
 }
