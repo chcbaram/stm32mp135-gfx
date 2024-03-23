@@ -63,6 +63,8 @@ bool hwInit(void)
   eepromInit();
   ddrInit();
   emmcInit();
+  gpioInit();
+  sdInit();
 
   loaderInit();
 

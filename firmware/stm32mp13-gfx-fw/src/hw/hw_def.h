@@ -12,6 +12,9 @@
 
 #define _USE_HW_LOADER
 #define _USE_HW_YMODEM
+#define _USE_HW_GPIO
+#define _USE_HW_SD
+
 
 #define _USE_HW_LED
 #define      HW_LED_MAX_CH          2
@@ -38,7 +41,7 @@
 #define      HW_I2C_CH_TOUCH        _DEF_I2C1
 
 #define _USE_HW_DDR
-#define      HW_DDR_SETUP           1
+#define      HW_DDR_SETUP           0
 #define      HW_DDR_ADDR            0xC0000000
 #define      HW_DDR_SIZE            (512*1024*1024)
 
@@ -58,5 +61,19 @@
 #define _USE_CLI_HW_DDR             0
 #define _USE_CLI_HW_EMMC            1
 #define _USE_CLI_HW_LOADER          1
+#define _USE_CLI_HW_GPIO            1
+#define _USE_CLI_HW_SD              1
+
+
+typedef enum
+{
+  SD_DETECT,
+  LCD_RST,
+  LCD_INT,
+  LCD_BL,
+  LCD_DISP,
+  
+  GPIO_PIN_MAX,  
+} GpioPinName_t;
 
 #endif

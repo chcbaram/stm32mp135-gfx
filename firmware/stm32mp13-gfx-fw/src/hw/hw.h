@@ -18,6 +18,8 @@ extern "C" {
 #include "loader.h"
 #include "ymodem.h"
 #include "eeprom.h"
+#include "gpio.h"
+#include "sd.h"
 
 
 bool hwInit(void);
