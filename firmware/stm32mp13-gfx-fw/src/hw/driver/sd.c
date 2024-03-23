@@ -39,7 +39,7 @@ bool sdInit(void)
   hsd.Init.ClockEdge      = SDMMC_CLOCK_EDGE_RISING;
   hsd.Init.ClockPowerSave = SDMMC_CLOCK_POWER_SAVE_DISABLE;
   hsd.Init.BusWide        = SDMMC_BUS_WIDE_4B;
-  hsd.Init.HardwareFlowControl = SDMMC_HARDWARE_FLOW_CONTROL_DISABLE;
+  hsd.Init.HardwareFlowControl = SDMMC_HARDWARE_FLOW_CONTROL_ENABLE;
   hsd.Init.ClockDiv       = 0;
 
   is_detected = sdIsDetected();

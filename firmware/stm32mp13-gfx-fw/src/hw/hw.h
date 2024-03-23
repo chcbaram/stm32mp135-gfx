@@ -20,6 +20,8 @@ extern "C" {
 #include "eeprom.h"
 #include "gpio.h"
 #include "sd.h"
+#include "fatfs.h"
+#include "files.h"
 
 
 bool hwInit(void);

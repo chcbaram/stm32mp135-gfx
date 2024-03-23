@@ -65,7 +65,9 @@ bool hwInit(void)
   emmcInit();
   gpioInit();
   sdInit();
+  fatfsInit();
 
+  
   loaderInit();
 
   return true;

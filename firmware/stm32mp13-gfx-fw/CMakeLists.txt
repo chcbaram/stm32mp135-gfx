@@ -24,6 +24,11 @@ file(GLOB SRC_FILES CONFIGURE_DEPENDS
   src/bsp/*.c
   src/bsp/device/*.c
   src/bsp/startup/*.c
+
+  # FatFs
+  src/lib/FatFs/src/*.c
+  src/lib/FatFs/src/option/syscall.c
+  src/lib/FatFs/src/option/unicode.c    
 )
 
 # 하위폴더에 있는 파일까지 포함한다.
@@ -77,6 +82,10 @@ target_include_directories(${EXECUTABLE} PRIVATE
   src/lib/ST/CMSIS/Core_A/Include
   src/lib/ST/CMSIS/Device/ST/STM32MP13xx/Include
   src/lib/ST/STM32MP13xx_HAL_Driver/Inc
+
+  # FatFs
+  src/hw/driver/fatfs
+  src/lib/FatFs/src    
   )
 
 target_compile_definitions(${EXECUTABLE} PRIVATE
