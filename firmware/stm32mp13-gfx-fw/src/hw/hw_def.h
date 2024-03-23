@@ -87,7 +87,7 @@ typedef enum
   LCD_TP_INT,
   LCD_BLK,
   LCD_RESET,
-  
+  LCD_SPI_CS,
   GPIO_PIN_MAX,  
 } GpioPinName_t;
 
