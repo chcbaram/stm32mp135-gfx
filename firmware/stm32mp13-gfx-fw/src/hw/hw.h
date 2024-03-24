@@ -26,6 +26,7 @@ extern "C" {
 #include "spi.h"
 #include "ltdc.h"
 #include "lcd.h"
+#include "i2s.h"
 
 
 bool hwInit(void);

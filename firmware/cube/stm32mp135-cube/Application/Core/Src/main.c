@@ -21,6 +21,7 @@
 #include "dma.h"
 #include "etzpc.h"
 #include "i2c.h"
+#include "i2s.h"
 #include "ltdc.h"
 #include "sdmmc.h"
 #include "spi.h"
@@ -102,6 +103,7 @@ int main(void)
   MX_I2C3_Init();
   MX_SDMMC2_MMC_Init();
   MX_SPI5_Init();
+  MX_I2S1_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -166,7 +168,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL4.PLLM = 2;
   RCC_OscInitStruct.PLL4.PLLN = 50;
   RCC_OscInitStruct.PLL4.PLLP = 12;
-  RCC_OscInitStruct.PLL4.PLLQ = 60;
+  RCC_OscInitStruct.PLL4.PLLQ = 36;
   RCC_OscInitStruct.PLL4.PLLR = 6;
   RCC_OscInitStruct.PLL4.PLLRGE = RCC_PLL4IFRANGE_1;
   RCC_OscInitStruct.PLL4.PLLFRACV = 0;

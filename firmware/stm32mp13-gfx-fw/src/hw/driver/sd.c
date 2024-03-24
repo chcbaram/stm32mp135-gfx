@@ -270,11 +270,18 @@ bool sdIsReady(uint32_t timeout)
 bool sdReadBlocks(uint32_t block_addr, uint8_t *p_data, uint32_t num_of_blocks, uint32_t timeout_ms)
 {
   bool ret = false;
-  uint32_t pre_time;
 
 
   if (is_init == false) return false;
 
+
+  #if HW_SD_DMA == 0
+  if(HAL_SD_ReadBlocks(&hsd, (uint8_t *)p_data, block_addr, num_of_blocks, timeout_ms) == HAL_OK)
+  {
+    ret = true;
+  }
+  #else
+  uint32_t pre_time;
 
   is_rx_done = false;
   if(HAL_SD_ReadBlocks_DMA(&hsd, (uint8_t *)p_data, block_addr, num_of_blocks) == HAL_OK)
@@ -304,20 +311,29 @@ bool sdReadBlocks(uint32_t block_addr, uint8_t *p_data, uint32_t num_of_blocks, 
     invalidate_cache_by_addr((uint32_t*)p_data, BLOCKSIZE * num_of_blocks);
     #endif
   }
+  #endif
+
   return ret;
 }
 
 bool sdWriteBlocks(uint32_t block_addr, uint8_t *p_data, uint32_t num_of_blocks, uint32_t timeout_ms)
 {
   bool ret = false;
-  uint32_t pre_time;
 
   if (is_init == false) return false;
 
 
+  #if HW_SD_DMA == 0
+  if(HAL_SD_WriteBlocks(&hsd, (uint8_t *)p_data, block_addr, num_of_blocks, timeout_ms) == HAL_OK)
+  {
+    ret = true;
+  }  
+  #else
   #ifdef _USE_HW_CACHE
   invalidate_cache_by_addr((uint32_t *)p_data, num_of_blocks * BLOCKSIZE);  
   #endif
+
+  uint32_t pre_time;
 
   is_tx_done = false;
   if(HAL_SD_WriteBlocks_DMA(&hsd, (uint8_t *)p_data, block_addr, num_of_blocks) == HAL_OK)
@@ -341,6 +357,7 @@ bool sdWriteBlocks(uint32_t block_addr, uint8_t *p_data, uint32_t num_of_blocks,
     }
     ret = is_tx_done;
   }
+  #endif
 
   return ret;
 }

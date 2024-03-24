@@ -108,7 +108,6 @@ SECTIONS
         __RO_END__ = .;
     } >RAM
 
-
     .ARM.extab   : {
     . = ALIGN(4);
     *(.ARM.extab* .gnu.linkonce.armextab.*)
@@ -212,19 +211,21 @@ SECTIONS
       . = ALIGN(4);       
     } >DDR_BUF
 
-  .non_cache :
-  {
-    . = ALIGN(4);      
-    *(.non_cache)
-    *(.non_cache*)   
-    . = ALIGN(4);       
-  } >SRAM3_BASE 
-  
-  /* Remove information from the compiler libraries */
-  /DISCARD/ :
-  {
-    libc.a ( * )
-    libm.a ( * )
-    libgcc.a ( * )
-  }
+    .non_cache(NOLOAD) :
+    {
+      . = ALIGN(4);      
+      *(.non_cache)
+      *(.non_cache*)   
+      . = ALIGN(4);       
+    } >SRAM3_BASE 
+    
+    /* Remove information from the compiler libraries */
+    /DISCARD/ :
+    {
+      libc.a ( * )
+      libm.a ( * )
+      libgcc.a ( * )
+    }
+
+    .ARM.attributes 0 : { *(.ARM.attributes) }
 }

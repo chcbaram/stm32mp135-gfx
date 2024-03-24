@@ -38,8 +38,10 @@ file(GLOB_RECURSE SRC_FILES_RECURSE CONFIGURE_DEPENDS
   src/bsp/*.s
   src/common/*.c
   src/hw/*.c
-  src/lib/ST/CMSIS/*.c
   src/lib/ST/STM32MP13xx_HAL_Driver/Src/*.c
+
+  src/lib/ST/CMSIS/Core_A/*.c
+  src/lib/ST/CMSIS/Device/*.c  
 )
 
 # 특정 폴더를 빌드에서 제외한다.
@@ -86,6 +88,10 @@ target_include_directories(${EXECUTABLE} PRIVATE
   # FatFs
   src/hw/driver/fatfs
   src/lib/FatFs/src    
+
+  # DSP
+  src/lib/ST/CMSIS/DSP/Include
+
   )
 
 target_compile_definitions(${EXECUTABLE} PRIVATE
@@ -105,9 +111,10 @@ target_compile_options(${EXECUTABLE} PRIVATE
   -mfpu=neon-vfpv4  
   -mfloat-abi=hard
 
+
   -fdata-sections
   -ffunction-sections
-  -Wstack-usage=2048
+  # -Wstack-usage=2048
 
   -Wall
   -g3
@@ -134,6 +141,13 @@ target_link_options(${EXECUTABLE} PRIVATE
   -Wl,-Map=${PRJ_NAME}.map,--cref
   -Wl,--gc-sections
   -Xlinker -print-memory-usage -Xlinker
+  )
+
+set (CMAKE_CXX_FLAGS "-fno-rtti")
+
+target_link_libraries( ${EXECUTABLE} PRIVATE
+  ${CMAKE_SOURCE_DIR}/src/lib/ST/CMSIS/DSP-LIB/libCMSISDSPCommon.a 
+  ${CMAKE_SOURCE_DIR}/src/lib/ST/CMSIS/DSP-LIB/libCMSISDSPTransform.a 
   )
 
 add_custom_command(TARGET ${EXECUTABLE} 

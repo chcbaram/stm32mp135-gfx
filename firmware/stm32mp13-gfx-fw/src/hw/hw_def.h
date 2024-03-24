@@ -19,11 +19,11 @@
 #define _USE_HW_LOADER
 #define _USE_HW_YMODEM
 #define _USE_HW_GPIO
-#define _USE_HW_SD
 #define _USE_HW_FATFS
 #define _USE_HW_FILES
 #define _USE_HW_ST7701
 #define _USE_HW_CACHE
+#define _USE_HW_BUZZER
 
 
 #if LCD_MODEL_4_0_480x480
@@ -73,6 +73,9 @@
 #define      HW_EMMC_DMA            0
 #define      HW_EMMC_SIZE           (4*1024*1024*1024)
 
+#define _USE_HW_SD
+#define      HW_SD_DMA              0
+
 #define _USE_HW_EEPROM
 #define      HW_EEPROM_MAX_SIZE     (4*1024)
 
@@ -102,6 +105,13 @@
 #define      HW_LCD_HEIGHT          480
 #endif
 
+#define _USE_HW_I2S
+#define      HW_I2S_LCD             1
+
+#define _USE_HW_MIXER
+#define      HW_MIXER_MAX_CH        4
+#define      HW_MIXER_MAX_BUF_LEN   (48*2*4*4) // 48Khz * Stereo * 4ms * 4
+
 
 
 //-- USE CLI
@@ -124,6 +134,7 @@ typedef enum
   LCD_BLK,
   LCD_RESET,
   LCD_SPI_CS,
+  I2S1_MUTE,
   GPIO_PIN_MAX,  
 } GpioPinName_t;
 

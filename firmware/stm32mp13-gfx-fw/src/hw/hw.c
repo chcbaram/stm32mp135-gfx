@@ -69,7 +69,8 @@ bool hwInit(void)
   fatfsInit();
   touchInit();
   lcdInit();
-  
+  i2sInit();
+
   loaderInit();
 
   return true;
