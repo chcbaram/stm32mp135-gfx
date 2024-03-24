@@ -45,7 +45,7 @@ MEMORY {
       SRAM3_BASE (rwx)    : ORIGIN = 0x30006000, LENGTH = 8K
       
       DDR_BUF  (xrw)      : ORIGIN = 0xC0000000, LENGTH = 8M
-      DDR_BASE (rwx)      : ORIGIN = 0xC0800000, LENGTH = 512M - 8M
+      DDR_BASE (rwx)      : ORIGIN = 0xC0800200, LENGTH = 32M
 }
 
 /* Select Memory in which code has to be placed and offset of code from start of this memory */

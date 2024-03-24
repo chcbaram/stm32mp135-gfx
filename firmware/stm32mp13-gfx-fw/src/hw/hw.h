@@ -28,6 +28,7 @@ extern "C" {
 #include "lcd.h"
 #include "i2s.h"
 #include "button.h"
+#include "util.h"
 
 
 bool hwInit(void);

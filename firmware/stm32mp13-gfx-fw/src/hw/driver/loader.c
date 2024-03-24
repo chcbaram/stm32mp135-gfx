@@ -6,7 +6,7 @@
 #include "emmc.h"
 #include "ymodem.h"
 #include "qbuffer.h"
-
+#include "util.h"
 
 enum 
 {
@@ -42,13 +42,14 @@ bool loaderInit(void)
   return true;
 }
 
-uint32_t loaderUpdateEMMC(uint32_t offset_addr, uint32_t timeout_ms)
+uint32_t loaderDownToEMMC(uint32_t offset_addr, firm_tag_t *p_tag,  uint32_t timeout_ms)
 {
   uint32_t err_code = LOADER_OK;
   bool keep_loop = true;
   uint32_t pre_time;
   uint8_t emmc_buf[512];
   uint32_t block_addr = 0;
+  uint16_t crc_data = 0;
 
 
   if (offset_addr == 0)
@@ -69,6 +70,11 @@ uint32_t loaderUpdateEMMC(uint32_t offset_addr, uint32_t timeout_ms)
         case YMODEM_TYPE_START:
           qbufferFlush(&load_buf_q);
           block_addr = offset_addr/512;
+          crc_data = 0;
+          if (p_tag != NULL)
+          {
+            p_tag->magic_number = 0;
+          }          
           break;
 
         case YMODEM_TYPE_DATA:
@@ -83,6 +89,7 @@ uint32_t loaderUpdateEMMC(uint32_t offset_addr, uint32_t timeout_ms)
               err_code = LOADER_ERR_DATA_WRITE;
               break;
             } 
+            crc_data = utilCalcCRC(crc_data, emmc_buf, 512);
             block_addr++;
           }
            
@@ -91,12 +98,21 @@ uint32_t loaderUpdateEMMC(uint32_t offset_addr, uint32_t timeout_ms)
         case YMODEM_TYPE_END:
           if (qbufferAvailable(&load_buf_q) > 0)
           {
-            qbufferRead(&load_buf_q, emmc_buf, qbufferAvailable(&load_buf_q));
+            uint32_t len = qbufferAvailable(&load_buf_q);
+            qbufferRead(&load_buf_q, emmc_buf, len);
             if (emmcWriteBlocks(block_addr, emmc_buf, 1, 500) != true)
             {
               err_code = LOADER_ERR_END_WRITE;
             } 
+            crc_data = utilCalcCRC(crc_data, emmc_buf, len);
           }        
+          if (p_tag != NULL)
+          {
+            p_tag->magic_number = TAG_MAGIC_NUMBER;
+            p_tag->fw_addr      = 0;
+            p_tag->fw_size      = ymodem.file_length;
+            p_tag->fw_crc       = crc_data;
+          }             
           keep_loop = false;
           break;
 
@@ -163,7 +179,7 @@ void cliCmd(cli_args_t *args)
     addr = (uint32_t)args->getData(1);
     cliPrintf("emmc add : 0x%X\n", addr);
  
-    loaderUpdateEMMC(addr, 30000); 
+    loaderDownToEMMC(addr, NULL, 30000); 
     ret = true;
   }
 
