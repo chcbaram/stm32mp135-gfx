@@ -27,6 +27,7 @@ extern "C" {
 #include "ltdc.h"
 #include "lcd.h"
 #include "i2s.h"
+#include "button.h"
 
 
 bool hwInit(void);

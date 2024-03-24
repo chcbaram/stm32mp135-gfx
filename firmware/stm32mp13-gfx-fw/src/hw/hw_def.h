@@ -64,6 +64,9 @@
 #define      HW_I2C_CH_EEPROM       _DEF_I2C1
 #define      HW_I2C_CH_TOUCH        _DEF_I2C1
 
+#define _USE_HW_BUTTON
+#define      HW_BUTTON_MAX_CH       3
+
 #define _USE_HW_DDR
 #define      HW_DDR_SETUP           0
 #define      HW_DDR_ADDR            0xC0000000
@@ -124,6 +127,7 @@
 #define _USE_CLI_HW_GPIO            1
 #define _USE_CLI_HW_SD              1
 #define _USE_CLI_HW_FATFS           1
+#define _USE_CLI_HW_BUTTON          1
 
 
 typedef enum

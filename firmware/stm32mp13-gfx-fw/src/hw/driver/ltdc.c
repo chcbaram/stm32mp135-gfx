@@ -115,6 +115,9 @@ bool ltdcInit(void)
     {
       frame_buffer[ch][i] = 0x0000;
     }
+    #ifdef _USE_HW_CACHE
+    invalidate_cache_by_addr(frame_buffer[ch], FRAME_IMG_SIZE);
+    #endif     
   }
 
   ltdcLayerInit(LTDC_LAYER_1, (uint32_t)frame_buffer[frame_index]);

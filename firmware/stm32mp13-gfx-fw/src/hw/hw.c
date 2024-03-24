@@ -65,6 +65,7 @@ bool hwInit(void)
   ddrInit();
   emmcInit();
   gpioInit();
+  buttonInit();
   sdInit();
   fatfsInit();
   touchInit();
